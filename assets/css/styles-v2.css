@@ -1,0 +1,1086 @@
+/* ===========================================================================
+   All In — Layan landing (redesign, 2026-11-10). Arabic-first, RTL.
+   Used by index.html. The previous stylesheet, styles.css, is no longer linked.
+
+   Idea: one night at the clinic. The clinic closes, one window stays lit.
+   Colour roles (all OKLCH):
+     white           daytime page
+     night ink       the closed clinic at night (problem, final CTA, footer)
+     honey           the lamp that stays on = Layan (seed colour from the palette tool)
+     WhatsApp green  only on WhatsApp buttons and Layan's chat bubbles
+   Light theme on purpose: a clinic owner reads this on a phone in bright light.
+   =========================================================================== */
+:root {
+  /* day */
+  --bg: oklch(1 0 0);
+  --surface: oklch(0.966 0.006 265);
+  --line: oklch(0.9 0.012 265);
+  --ink: oklch(0.2 0.03 265);
+  --muted: oklch(0.44 0.025 265);
+
+  /* night */
+  --night: oklch(0.17 0.035 265);
+  --night-2: oklch(0.235 0.04 265);
+  --night-line: oklch(0.33 0.04 265);
+  --on-night: oklch(0.97 0.012 85);
+  --on-night-muted: oklch(0.8 0.025 265);
+
+  /* honey (the lamp) */
+  --honey: oklch(0.817 0.161 75.1);
+  --honey-shade: oklch(0.72 0.14 70);
+  --honey-deep: oklch(0.5 0.1 66);       /* honey as text on white */
+  --honey-ink: oklch(0.23 0.05 62);      /* text on honey */
+  --honey-ink-soft: oklch(0.36 0.07 62); /* secondary text on honey */
+
+  /* WhatsApp */
+  --wa: oklch(0.761 0.201 149.7);        /* WhatsApp's own green, #25d366 */
+  --wa-strong: oklch(0.703 0.188 149.6);
+  --wa-ink: oklch(0.24 0.06 155);
+  --bubble-out: oklch(0.94 0.075 148);
+  --tick: oklch(0.62 0.13 235);
+
+  --font: "Beiruti", system-ui, -apple-system, "Segoe UI", "Noto Sans Arabic",
+          Tahoma, Arial, sans-serif;
+
+  --wrap: 72rem;
+  --gutter: clamp(1.1rem, 4vw, 2.5rem);
+  --section: clamp(4rem, 9vw, 7.5rem);
+  --r-m: 18px;
+  --r-l: 28px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* semantic z-index scale */
+  --z-sticky: 100;
+  --z-skip: 300;
+}
+
+/* --- Base ------------------------------------------------------------------ */
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+
+body {
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.75;            /* Arabic reads better with more leading */
+  color: var(--ink);
+  background: var(--bg);
+  text-rendering: optimizeLegibility;
+}
+
+/* IMPORTANT (Arabic): never letter-space Arabic script; it breaks the joins. */
+
+[hidden] { display: none !important; }
+.sprite { position: absolute; }
+svg:not(.sprite) { width: 1.25em; height: 1.25em; flex: none; }
+
+.wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: var(--gutter); }
+
+.vh {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: -999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.6rem 1rem;
+  border-end-end-radius: var(--r-m);
+  z-index: var(--z-skip);
+}
+.skip-link:focus { inset-inline-start: 0; }
+
+:focus-visible {
+  outline: 3px solid var(--honey-deep);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.on-night :focus-visible { outline-color: var(--honey); }
+
+/* --- Type ------------------------------------------------------------------ */
+h1, h2, h3 { text-wrap: balance; }
+h1 {
+  font-size: clamp(2.4rem, 1.2rem + 4.2vw, 4.6rem);
+  font-weight: 900;
+  line-height: 1.22;
+}
+h2 {
+  font-size: clamp(1.9rem, 1.25rem + 3vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+h3 { font-size: 1.3rem; font-weight: 700; line-height: 1.4; }
+p { text-wrap: pretty; }
+
+.lead {
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+  color: var(--muted);
+  max-width: 38rem;
+  margin-top: 1rem;
+}
+.on-night .lead { color: var(--on-night-muted); }
+
+/* A clock time that opens the night and the morning. Used twice, on purpose. */
+.time {
+  font-size: clamp(2.4rem, 1.5rem + 4.2vw, 4.4rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--honey-deep);
+  margin-bottom: 0.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.on-night .time { color: var(--honey); }
+
+/* --- Sections --------------------------------------------------------------- */
+.sec { padding-block: var(--section); }
+.sec-head { max-width: 44rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+
+/* --- Buttons ---------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.3;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), background-color 0.2s ease,
+              color 0.2s ease, box-shadow 0.2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-wa {
+  background: var(--wa);
+  color: var(--wa-ink);
+  box-shadow: 0 10px 24px -10px oklch(0.6 0.19 150 / 0.7);
+}
+.btn-wa:hover { background: var(--wa-strong); }
+
+.btn-line { border-color: var(--ink); color: var(--ink); }
+.btn-line:hover { background: var(--ink); color: var(--bg); }
+.on-night .btn-line { border-color: var(--on-night); color: var(--on-night); }
+.on-night .btn-line:hover { background: var(--on-night); color: var(--night); }
+
+.btn-sm { padding: 0.55rem 1rem; font-size: 0.95rem; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.9rem; }
+
+/* --- Header ----------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+.site-nav { display: flex; align-items: center; gap: 1.25rem; min-height: 4rem; }
+
+/* The CTA (and, on wide screens, the links) sit at the far end from the brand. */
+.site-nav > .btn { margin-inline-start: auto; }
+@media (min-width: 48rem) {
+  .site-nav > .nav-links { margin-inline-start: auto; }
+  .site-nav > .btn { margin-inline-start: 0; }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1;
+  text-decoration: none;
+}
+.brand-in { color: var(--honey-deep); }
+.on-night .brand-in { color: var(--honey); }
+
+/* The lit window: the page's one recurring mark. */
+.brand-window, .lamp {
+  width: 0.7rem;
+  height: 0.9rem;
+  border-radius: 2px;
+  background: var(--honey);
+  box-shadow: 0 0 0 1px var(--honey-shade);
+  flex: none;
+}
+.brand-window { margin-right: 0.5rem; }  /* the brand is Latin (LTR): gap after the mark */
+.lamp { box-shadow: 0 0 0 1px var(--honey-shade), 0 0 0.9rem 0.15rem oklch(0.817 0.161 75.1 / 0.6); }
+
+.nav-links { display: none; gap: 1.6rem; font-weight: 600; }
+.nav-links a { text-decoration: none; padding-block: 0.4rem; }
+.nav-links a:hover { color: var(--honey-deep); }
+@media (min-width: 48rem) { .nav-links { display: flex; } }
+
+/* --- Hero ------------------------------------------------------------------- */
+.hero {
+  padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3.5rem, 8vw, 6.5rem);
+  overflow: clip;
+}
+.hero-grid { display: grid; gap: clamp(2.5rem, 6vw, 4.5rem); align-items: center; }
+@media (min-width: 62rem) {
+  .hero-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 1.1rem;
+}
+
+/* Highlighter stroke under the promise (a solid block, not gradient text). */
+.hl {
+  /* anchored on the right so it is drawn in the reading direction (RTL page) */
+  background: linear-gradient(var(--honey), var(--honey)) right bottom / 100% 36% no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-inline: 0.12em;
+}
+
+.hero-sub {
+  font-size: clamp(1.12rem, 1rem + 0.6vw, 1.35rem);
+  color: var(--muted);
+  max-width: 35rem;
+  margin-top: 1.4rem;
+}
+.hero-sub strong { color: var(--ink); }
+
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.4rem;
+  margin-top: 1.8rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+.hero-facts li { display: inline-flex; align-items: center; gap: 0.45rem; }
+.hero-facts svg { width: 1.05rem; height: 1.05rem; color: var(--honey-deep); }
+
+.hero-visual {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 21.5rem;
+  margin-inline: auto;
+}
+/* Lamp light on the wall behind the chat. */
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -14% -18% 0;
+  background: radial-gradient(closest-side, oklch(0.817 0.161 75.1 / 0.32), transparent);
+  pointer-events: none;
+}
+@media (min-width: 62rem) { .hero-visual { margin-inline: auto 0; } }
+
+/* --- WhatsApp thread (hero + WhatsApp section) ------------------------------- */
+.thread {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  padding: 1rem 1rem 1.25rem;
+  box-shadow: 0 30px 60px -28px oklch(0.2 0.03 265 / 0.3);
+}
+.thread-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+.avatar {
+  width: 2.6rem; height: 2.6rem;
+  border-radius: 50%;
+  background: var(--night);
+  color: var(--honey);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  flex: none;
+}
+.thread-who { display: grid; line-height: 1.4; min-width: 0; }
+.thread-who strong { font-size: 1rem; }
+.thread-who span { font-size: 0.82rem; color: var(--muted); }
+.thread-note {
+  margin-inline-start: auto;
+  font-size: 0.78rem;
+  color: var(--muted);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.1rem 0.65rem;
+  white-space: nowrap;
+}
+.thread-day { text-align: center; font-size: 0.8rem; color: var(--muted); margin-block: 0.8rem 0.6rem; }
+.thread-body { display: grid; gap: 0.6rem; }
+
+.msg {
+  position: relative;
+  max-width: 87%;
+  padding: 0.6rem 0.9rem 0.4rem;
+  border-radius: 16px;
+  font-size: 1rem;
+  line-height: 1.65;
+  box-shadow: 0 1px 1px oklch(0.2 0.03 265 / 0.1);
+}
+/* The clinic's own WhatsApp: the patient is incoming, Layan is outgoing. */
+.msg--in { justify-self: start; background: var(--bg); border-start-start-radius: 4px; }
+.msg--out { justify-self: end; background: var(--bubble-out); border-start-end-radius: 4px; }
+.msg-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+.msg-meta svg { width: 1.05rem; height: 1.05rem; color: var(--tick); }
+
+/* "Layan is typing" dots. Shown only as part of the hero's opening motion. */
+.typing { display: none; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+/* the dots and the reply share one grid cell, so nothing jumps when they swap */
+.thread--hero .typing, .thread--hero .typing + .msg { grid-area: 2 / 1; }
+
+/* Numbered pin on a reply; matches the numbered notes next to the thread. */
+.pin {
+  position: absolute;
+  top: -0.6rem;
+  inset-inline-end: -0.6rem;
+  width: 1.6rem; height: 1.6rem;
+  border-radius: 50%;
+  background: var(--honey);
+  color: var(--honey-ink);
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 0 3px var(--surface);
+}
+
+/* --- The hero chat sits in a phone, so it reads as a real WhatsApp screen ---- */
+.device {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 35rem;   /* leaves room under the reply for the call strip */
+  padding: 0;
+  border: 0.6rem solid var(--night);
+  border-radius: 2.8rem;
+  overflow: hidden;
+  box-shadow: 0 40px 70px -30px oklch(0.2 0.03 265 / 0.5);
+}
+/* camera island */
+.device::before {
+  content: "";
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  width: 4.4rem;
+  height: 1.15rem;
+  margin-left: -2.2rem;
+  border-radius: 999px;
+  background: var(--night);
+}
+.device-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  direction: ltr;
+  padding: 0.6rem 1.4rem 0.4rem;
+  background: var(--bg);
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.device-icons { display: flex; align-items: center; gap: 0.3rem; }
+.device-icons i { display: block; height: 0.62rem; background: var(--ink); }
+.device-icons .sig { width: 0.95rem; clip-path: polygon(0 100%, 100% 0, 100% 100%); }
+.device-icons .wifi { width: 0.85rem; clip-path: polygon(0 0, 100% 0, 50% 100%); border-radius: 0.5rem 0.5rem 0 0; }
+.device-icons .bat { width: 1.35rem; border-radius: 3px; }
+.device .thread-head { padding: 0.5rem 1rem 0.75rem; background: var(--bg); }
+.device .thread-body { padding-inline: 0.85rem; }
+.device-input {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding: 1rem 0.85rem 1.1rem;
+}
+.device-input span {
+  flex: 1;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.device-input b {
+  width: 2.4rem; height: 2.4rem;
+  border-radius: 50%;
+  background: var(--wa);
+  color: var(--wa-ink);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.device-input svg { width: 1.1rem; height: 1.1rem; transform: scaleX(-1); }
+
+/* --- Incoming call strip (hero) --------------------------------------------- */
+.callstrip {
+  position: absolute;
+  inset-block-end: 4.9rem;
+  inset-inline-start: -0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--night);
+  color: var(--on-night);
+  border-radius: 999px;
+  padding: 0.6rem 0.75rem;
+  padding-inline-end: 1.15rem;
+  box-shadow: 0 18px 40px -16px oklch(0.17 0.035 265 / 0.7);
+}
+@media (min-width: 62rem) { .callstrip { inset-inline-start: -4rem; } }
+.callstrip-ic {
+  width: 2.5rem; height: 2.5rem;
+  border-radius: 50%;
+  background: var(--honey);
+  color: var(--honey-ink);
+  display: grid;
+  place-items: center;
+}
+.callstrip-ic svg { width: 1.2rem; height: 1.2rem; }
+.callstrip-text { display: grid; line-height: 1.35; }
+.callstrip-text strong { font-size: 1rem; }
+.callstrip-text span { font-size: 0.8rem; color: var(--on-night-muted); }
+.mini-eq { display: flex; align-items: center; gap: 3px; height: 1.4rem; margin-inline-start: 0.3rem; }
+.mini-eq i {
+  width: 3px; height: 100%;
+  border-radius: 2px;
+  background: var(--honey);
+  transform: scaleY(0.4);
+}
+.mini-eq i:nth-child(2) { transform: scaleY(0.9); }
+.mini-eq i:nth-child(3) { transform: scaleY(0.6); }
+
+/* --- The night (problem) ---------------------------------------------------- */
+/* overflow: clip keeps the lamp's glow inside the night; it must not spill onto white. */
+.night { background: var(--night); color: var(--on-night); padding-block-end: var(--section); overflow: clip; }
+
+/* A building front at night. Every window dark except one. */
+.windows {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: clamp(0.5rem, 1.6vw, 1rem);
+  padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3.25rem, 7vw, 5rem);
+}
+@media (min-width: 48rem) { .windows { grid-template-columns: repeat(12, 1fr); } }
+.windows span {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border-radius: 4px;
+  /* two thin bars make the window frame */
+  background:
+    linear-gradient(var(--night), var(--night)) center / 2px 100% no-repeat,
+    linear-gradient(var(--night), var(--night)) center 38% / 100% 2px no-repeat,
+    var(--night-2);
+  box-shadow: inset 0 0 0 1px var(--night-line);
+}
+.windows .lit {
+  background:
+    linear-gradient(var(--honey-shade), var(--honey-shade)) center / 2px 100% no-repeat,
+    linear-gradient(var(--honey-shade), var(--honey-shade)) center 38% / 100% 2px no-repeat,
+    var(--honey);
+  box-shadow:
+    0 0 0 1px var(--honey),
+    0 0 2.5rem 0.4rem oklch(0.817 0.161 75.1 / 0.45);
+  z-index: 1;
+}
+/* the lamp's wider glow; it breathes slowly (see Motion) */
+.windows .lit::before {
+  content: "";
+  position: absolute;
+  inset: -160%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, oklch(0.817 0.161 75.1 / 0.3), transparent);
+  pointer-events: none;
+}
+/* windows that are on at closing time; dark by default, like the rest */
+.windows .was-lit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(var(--honey-shade), var(--honey-shade)) center / 2px 100% no-repeat,
+    linear-gradient(var(--honey-shade), var(--honey-shade)) center 38% / 100% 2px no-repeat,
+    var(--honey);
+  opacity: 0;
+}
+.windows .lit[data-label]::after {
+  content: attr(data-label);
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--honey);
+}
+
+.night-grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+@media (min-width: 60rem) {
+  .night-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 26rem); }
+}
+
+.missed-cap { font-size: 0.9rem; color: var(--on-night-muted); margin-bottom: 0.6rem; }
+.missed { display: grid; gap: 0.6rem; }
+.missed li {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+  background: var(--night-2);
+  border: 1px solid var(--night-line);
+  border-radius: 16px;
+  padding: 0.75rem 1rem;
+}
+.missed .ic {
+  width: 2.3rem; height: 2.3rem;
+  border-radius: 50%;
+  background: var(--night);
+  color: var(--on-night-muted);
+  display: grid;
+  place-items: center;
+}
+.missed .ic svg { width: 1.1rem; height: 1.1rem; }
+.missed strong { display: block; font-weight: 700; line-height: 1.5; }
+.missed small { font-size: 0.88rem; color: var(--on-night-muted); }
+.missed time {
+  font-size: 0.85rem;
+  color: var(--on-night-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.night-end { margin-top: 1.4rem; font-size: 1.15rem; font-weight: 700; }
+
+/* --- Layan on WhatsApp ------------------------------------------------------ */
+.wa-grid { display: grid; gap: clamp(2.25rem, 5vw, 4rem); align-items: start; }
+@media (min-width: 60rem) {
+  .wa-grid { grid-template-columns: minmax(0, 27rem) minmax(0, 1fr); }
+}
+.notes { display: grid; gap: 1.6rem; }
+.notes li { display: grid; grid-template-columns: auto 1fr; gap: 0.9rem; align-items: start; }
+.notes .num {
+  width: 2rem; height: 2rem;
+  border-radius: 50%;
+  background: var(--honey);
+  color: var(--honey-ink);
+  font-weight: 800;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  margin-top: 0.15rem;
+}
+.notes h3 { font-size: 1.25rem; }
+.notes p { color: var(--muted); margin-top: 0.25rem; max-width: 36rem; }
+
+.wa-alert {
+  margin-top: 2.25rem;
+  padding: 1.1rem 1.25rem;
+  border-radius: var(--r-m);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  max-width: 38rem;
+}
+.wa-alert p { color: var(--muted); }
+
+/* --- Layan on the phone (the lamp-lit room) --------------------------------- */
+.phone { background: var(--honey); color: var(--honey-ink); }
+.phone .lead { color: var(--honey-ink-soft); }
+.phone :focus-visible { outline-color: var(--honey-ink); }
+.phone-grid { display: grid; gap: clamp(2.25rem, 5vw, 4rem); align-items: center; }
+@media (min-width: 60rem) {
+  .phone-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 28rem); }
+}
+
+.hear { margin-top: 2rem; }
+.hear h3 { font-size: 1.15rem; }
+/* A real sequence: the order things happen in the recorded call. */
+.hear-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; counter-reset: hear; }
+.hear-list li {
+  counter-increment: hear;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-block: 0.3rem;
+  padding-inline: 0.4rem 0.95rem;
+  border: 1.5px solid var(--honey-ink);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.hear-list li::before {
+  content: counter(hear);
+  width: 1.5rem; height: 1.5rem;
+  border-radius: 50%;
+  background: var(--honey-ink);
+  color: var(--honey);
+  font-size: 0.8rem;
+  font-weight: 800;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+.phone-facts { display: grid; gap: 0.7rem; margin-top: 1.9rem; max-width: 36rem; }
+
+.player {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.1rem 1.2rem;
+  align-items: center;
+  background: var(--night);
+  color: var(--on-night);
+  border-radius: var(--r-l);
+  padding: clamp(1.25rem, 3vw, 1.9rem);
+  box-shadow: 0 30px 60px -24px oklch(0.3 0.08 62 / 0.6);
+}
+.player :focus-visible { outline-color: var(--honey); }
+/* a ring that widens from the play button: "press here" */
+.play-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--honey);
+  opacity: 0;
+  pointer-events: none;
+}
+.play-btn {
+  position: relative;
+  width: 4.6rem; height: 4.6rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--honey);
+  color: var(--honey-ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease);
+}
+.play-btn:hover { transform: scale(1.06); }
+.play-btn:active { transform: scale(0.98); }
+.play-btn svg { width: 1.9rem; height: 1.9rem; }
+.player-title { font-size: 1.2rem; font-weight: 800; line-height: 1.4; }
+.player-sub { font-size: 0.92rem; color: var(--on-night-muted); }
+
+.eq { grid-column: 1 / -1; display: flex; align-items: center; gap: 4px; height: 2.6rem; }
+.eq span {
+  flex: 1;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--night-line);
+  transform: scaleY(0.3);
+}
+.eq span:nth-child(4n + 2) { transform: scaleY(0.6); }
+.eq span:nth-child(4n + 3) { transform: scaleY(0.85); }
+.eq span:nth-child(4n) { transform: scaleY(0.45); }
+.eq.playing span { background: var(--honey); }
+
+.bar {
+  grid-column: 1 / -1;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--night-line);
+  overflow: hidden;
+  direction: ltr;
+}
+.bar span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--honey); }
+.player-time {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  direction: ltr;
+  margin-top: -0.6rem;
+  font-size: 0.82rem;
+  color: var(--on-night-muted);
+  font-variant-numeric: tabular-nums;
+}
+.player-note { grid-column: 1 / -1; font-size: 0.9rem; color: var(--on-night-muted); }
+.player-note a { color: var(--honey); font-weight: 600; }
+
+/* Night version of the phone section. Honey is
+   then only ever light (the lamp), never a wall. Switched on by the class
+   "phone--night" on the section in index.html; the honey rules above stay as
+   the fallback if the class is removed. */
+.phone--night { background: var(--night); color: var(--on-night); overflow: clip; }
+.phone--night .lead { color: var(--on-night-muted); }
+.phone--night :focus-visible { outline-color: var(--honey); }
+.phone--night .hear-list li { background: var(--night-2); border-color: var(--night-line); }
+.phone--night .hear-list li::before { background: var(--honey); color: var(--honey-ink); }
+.phone--night .phone-facts { color: var(--on-night-muted); }
+.phone--night .phone-facts strong { color: var(--on-night); }
+.phone--night .phone-grid { position: relative; isolation: isolate; }
+.phone--night .player {
+  position: relative;
+  background: var(--night-2);
+  border: 1px solid var(--night-line);
+  box-shadow: 0 30px 60px -24px oklch(0 0 0 / 0.6);
+}
+/* lamp light on the wall behind the player */
+.phone--night .player::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -45% -30%;
+  background: radial-gradient(closest-side, oklch(0.817 0.161 75.1 / 0.26), transparent);
+  pointer-events: none;
+}
+.phone--night .bar,
+.phone--night .eq:not(.playing) span { background: oklch(0.42 0.04 265); }
+
+/* --- The morning (what the clinic gets) ------------------------------------- */
+.morning-grid { display: grid; gap: clamp(2.25rem, 5vw, 4rem); align-items: center; }
+@media (min-width: 60rem) {
+  .morning-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 30rem); }
+}
+.tasks {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--r-m);
+  overflow: hidden;
+  box-shadow: 0 24px 50px -30px oklch(0.2 0.03 265 / 0.3);
+}
+.tasks-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1.1rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.tasks-head span { font-size: 0.8rem; color: var(--muted); }
+.task {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "time chip" "what what";
+  gap: 0.3rem 1rem;
+  align-items: center;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+}
+.task:last-child { border-bottom: 0; }
+@media (min-width: 34rem) {
+  .task { grid-template-columns: 4.6rem 1fr auto; grid-template-areas: "time what chip"; }
+}
+.task time {
+  grid-area: time;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.task-what { grid-area: what; }
+.task-what strong { display: block; line-height: 1.5; }
+.task-what small { font-size: 0.88rem; color: var(--muted); }
+.chip {
+  grid-area: chip;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.6;
+  padding: 0.1rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.chip--open { background: var(--honey); color: var(--honey-ink); }
+.chip--done { background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
+/* the receptionist confirmed this request (main-v2.js switches one chip as an example) */
+.chip.is-confirmed { background: var(--ink); color: var(--bg); }
+
+/* --- Honest limits ---------------------------------------------------------- */
+.limits-sec { background: var(--surface); }
+.limits { display: grid; gap: 2.5rem; }
+@media (min-width: 48rem) { .limits { grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 5rem); } }
+.limits h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.6rem; }
+.limits-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  padding-block: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+.limits-list svg { width: 1.3rem; height: 1.3rem; margin-top: 0.3rem; }
+.does svg { color: var(--honey-deep); }
+.doesnt svg { color: var(--ink); }
+
+/* --- How we start (a real 1-2-3 sequence) ------------------------------------ */
+.steps { display: grid; gap: 2rem; }
+@media (min-width: 52rem) { .steps { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; } }
+.step { position: relative; padding-top: 1rem; }
+/* the rule above each step; drawn from the right, in reading order */
+.step::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  height: 3px;
+  background: var(--ink);
+  transform-origin: right center;
+}
+.step-n {
+  display: block;
+  font-size: 3.4rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: var(--honey-deep);
+  font-variant-numeric: tabular-nums;
+}
+.step h3 { margin-top: 0.3rem; }
+.step p { color: var(--muted); margin-top: 0.4rem; }
+
+/* --- Pricing ---------------------------------------------------------------- */
+.pricing { border-top: 1px solid var(--line); }
+.plans { display: grid; gap: 1.25rem; }
+@media (min-width: 56rem) { .plans { grid-template-columns: 1.25fr 1fr; } }
+.plan {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-l);
+  padding: clamp(1.4rem, 3.5vw, 2.25rem);
+}
+.plan--phone { background: var(--night); color: var(--on-night); border-color: var(--night); }
+.plan h3 { font-size: 1.5rem; font-weight: 800; }
+.amounts { display: grid; gap: 0.2rem; }
+.amount strong {
+  font-size: clamp(2rem, 1.5rem + 2vw, 2.9rem);
+  font-weight: 900;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.amount span { color: var(--muted); }
+.plan--phone .amount strong { color: var(--honey); }
+.plan--phone .amount span { color: var(--on-night-muted); }
+.plan-list { display: grid; gap: 0.5rem; }
+.plan-list li { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem; }
+.plan-list svg { width: 1.15rem; height: 1.15rem; margin-top: 0.4rem; color: var(--honey-deep); }
+.plan--phone .plan-list svg { color: var(--honey); }
+.plan .btn { align-self: flex-start; margin-top: auto; }
+.extra { margin-top: 1.6rem; color: var(--muted); }
+.extra a { color: var(--ink); font-weight: 700; }
+
+/* --- Final CTA + footer (night again: the page ends where the story began) --- */
+.cta {
+  background: var(--night);
+  color: var(--on-night);
+  text-align: center;
+  padding-block-end: clamp(3.5rem, 8vw, 6rem);
+  overflow: clip;
+}
+/* Real Amman above the closing call to action. The photo is daytime; the two
+   layers on top grade it to night (a blue multiply, then a fade into the page). */
+.city {
+  position: relative;
+  margin: 0;
+  height: clamp(14rem, 36vw, 27rem);
+  overflow: hidden;
+  background: var(--night);
+}
+.city img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 82%;
+  filter: grayscale(0.3) contrast(1.1);
+}
+.city::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: oklch(0.46 0.12 265);
+  mix-blend-mode: multiply;
+}
+.city::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to bottom,
+    oklch(0.17 0.035 265 / 0.4),
+    oklch(0.17 0.035 265 / 0.05) 45%,
+    var(--night));
+}
+.cta > .wrap { padding-block-start: clamp(1.5rem, 4vw, 2.75rem); }
+.credit { display: block; margin-top: 0.3rem; font-size: 0.82rem; }
+.cta h2 { max-width: 22ch; margin-inline: auto; }
+.cta .lead { margin-inline: auto; }
+.cta .actions { justify-content: center; }
+.cta-honest { max-width: 40rem; margin: 2.4rem auto 0; color: var(--on-night-muted); }
+.cta-note { margin-top: 0.9rem; font-size: 0.9rem; color: var(--on-night-muted); }
+
+.site-footer {
+  background: var(--night);
+  color: var(--on-night-muted);
+  border-top: 1px solid var(--night-line);
+  padding-block: 1.6rem;
+  font-size: 0.92rem;
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem 1.75rem;
+}
+.brand--footer { margin: 0; color: var(--on-night); font-size: 1.3rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 0.3rem 1.25rem; }
+.footer-links a { text-decoration: none; padding-block: 0.3rem; }
+.footer-links a:hover { color: var(--honey); }
+
+/* --- Motion -----------------------------------------------------------------
+   Everything is visible without motion. Each effect fits what it shows:
+   messages arrive one by one, the lamp switches on, the recording plays.
+   reset.css already neutralises animation for prefers-reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(12px); }
+  }
+  @keyframes eq {
+    from { transform: scaleY(0.25); }
+    to   { transform: scaleY(1); }
+  }
+  @keyframes breathe {
+    from { opacity: 1; }
+    to   { opacity: 0.6; }
+  }
+  @keyframes hl-draw {
+    from { background-size: 0% 36%; }
+  }
+  @keyframes typing-show {
+    0%   { opacity: 0; transform: translateY(8px); }
+    15%  { opacity: 1; transform: none; }
+    85%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  @keyframes dot {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+    30%           { transform: translateY(-4px); opacity: 1; }
+  }
+  @keyframes ring {
+    0%, 100% { transform: rotate(0); }
+    20%      { transform: rotate(-14deg); }
+    40%      { transform: rotate(12deg); }
+    60%      { transform: rotate(-8deg); }
+    80%      { transform: rotate(5deg); }
+  }
+  @keyframes bubble {
+    from { opacity: 0; transform: translateY(10px) scale(0.96); }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.4); }
+  }
+  @keyframes ring-out {
+    0%        { transform: scale(1); opacity: 0.7; }
+    70%, 100% { transform: scale(1.55); opacity: 0; }
+  }
+  @keyframes draw {
+    from { transform: scaleX(0); }
+  }
+
+  /* hero: the message, the reply, then the call */
+  .thread--hero .msg { animation: rise 0.6s var(--ease) both; }
+  .thread--hero .msg--in { animation-delay: 0.3s; }
+  .thread--hero .typing {
+    display: flex;
+    align-items: center;
+    align-self: start;
+    gap: 5px;
+    padding: 0.85rem 1rem;
+    animation: typing-show 1.15s ease 0.9s both;
+  }
+  .typing i { animation: dot 0.9s ease-in-out infinite; }
+  .typing i:nth-child(2) { animation-delay: 0.15s; }
+  .typing i:nth-child(3) { animation-delay: 0.3s; }
+  .thread--hero .typing + .msg { animation-delay: 2s; }
+  .callstrip { animation: rise 0.6s var(--ease) 2.7s both; }
+  .callstrip-ic svg { animation: ring 0.9s ease-in-out 3.3s 2; }
+
+  .hl { animation: hl-draw 0.8s var(--ease) 0.45s both; }
+  .hero-visual::before { animation: breathe 6s ease-in-out infinite alternate; }
+
+  .mini-eq i { animation: eq 0.8s ease-in-out infinite alternate; }
+  .mini-eq i:nth-child(2) { animation-delay: 0.2s; }
+  .mini-eq i:nth-child(3) { animation-delay: 0.4s; }
+  .mini-eq i:nth-child(4) { animation-delay: 0.1s; }
+
+  .eq.playing span { animation: eq 0.9s ease-in-out infinite alternate; }
+  .eq.playing span:nth-child(3n + 1) { animation-delay: 0.15s; }
+  .eq.playing span:nth-child(3n + 2) { animation-delay: 0.35s; }
+  .eq.playing span:nth-child(5n) { animation-delay: 0.5s; }
+
+  /* lists that "arrive" when scrolled to (main-v2.js adds the classes) */
+  .seq-ready > * { opacity: 0; }
+  .seq-play > * { animation: rise 0.55s var(--ease) both; animation-delay: calc(var(--i, 0) * 150ms); }
+
+  /* the WhatsApp example plays like a real chat: slower, and each bubble
+     grows from its own side (right = patient, left = Layan on this RTL page) */
+  .seq-play[data-seq="chat"] > * {
+    animation: bubble 0.45s var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 700ms);
+  }
+  [data-seq="chat"] > .msg--in { transform-origin: 100% 0; }
+  [data-seq="chat"] > .msg--out { transform-origin: 0 0; }
+  .seq-play[data-seq="chat"] .pin {
+    animation: pop 0.4s var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 700ms + 380ms);
+  }
+
+  /* how we start: each step's rule is drawn as the step arrives */
+  .seq-ready .step::before { transform: scaleX(0); }
+  .seq-play .step::before {
+    animation: draw 0.8s var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 150ms + 200ms);
+  }
+
+  /* closing time: the lit windows go dark one by one; Layan's stays on */
+  .lamp-ready .was-lit::before { opacity: 0.8; }
+  .lamp-play .was-lit::before {
+    opacity: 0;
+    transition: opacity 0.45s ease-in calc(var(--o, 0) * 260ms + 400ms);
+  }
+  .lamp-ready .lit::before { opacity: 0.35; }
+  .lamp-play .lit::before {
+    transition: opacity 1.2s ease-out 1.6s;
+    animation: breathe 3.6s ease-in-out 3s infinite alternate;
+  }
+
+  /* the recorded call: a ring invites the first press, and stops once it plays */
+  .play-btn::after { animation: ring-out 2.4s var(--ease) infinite; }
+  .play-btn[aria-pressed="true"]::after { animation: none; }
+  .phone--night .player::before { animation: breathe 5s ease-in-out infinite alternate; }
+  /* the clock reaching 9:00, and a request being confirmed */
+  .time bdi { display: inline-block; }
+  .time .tick-done { animation: pop 0.45s var(--ease); }
+  .chip.is-confirmed { animation: pop 0.45s var(--ease) both; }
+}
