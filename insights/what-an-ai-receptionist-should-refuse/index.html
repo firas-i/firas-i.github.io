@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What an AI receptionist should refuse to do | All In</title>
+  <meta name="description" content="The most important design work on a clinic assistant is the list of things it will not do. Here is ours, and why each line is there.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="https://firas-i.github.io/insights/what-an-ai-receptionist-should-refuse/">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="All In">
+  <meta property="og:title" content="What an AI receptionist should refuse to do | All In">
+  <meta property="og:description" content="The most important design work on a clinic assistant is the list of things it will not do. Here is ours, and why each line is there.">
+  <meta property="og:url" content="https://firas-i.github.io/insights/what-an-ai-receptionist-should-refuse/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..650&family=Hanken+Grotesk:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head">
+    <div class="wrap">
+      <a class="brand" href="../../" aria-label="All In, home">All <b>In</b></a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav class="nav" id="nav" aria-label="Main">
+        <a href="../../services/">Services</a>
+        <a href="../../industries/">Industries</a>
+        <a href="../../products/">Products</a>
+        <a href="../../insights/" aria-current="true">Insights</a>
+        <a href="../../about/">About</a>
+        <a class="btn btn-primary" href="../../contact/">Talk to us</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+
+    <section class="page-hero">
+      <div class="wrap"><div class="stack">
+        <nav class="crumbs" aria-label="Breadcrumb"><a href="../../insights/">Insights</a><span aria-hidden="true">/</span><span aria-current="page">AI in healthcare</span></nav>
+        <h1>What an AI receptionist should refuse to do</h1>
+        <p class="lede">The most important design work on a clinic assistant is the list of things it will not do. Here is ours, and why each line is there.</p>
+        <p class="meta"><span>All In</span><span aria-hidden="true">·</span><time datetime="2026-11-10">10 November 2026</time><span aria-hidden="true">·</span><span>5 min read</span></p>
+      </div></div>
+    </section>
+    <section>
+      <div class="wrap"><article class="prose">
+<p>When we started building Layan, our AI receptionist for clinics, the first document we wrote was not a prompt or a feature list. It was a list of refusals. Everything the assistant can do is easier to get right once you have decided, in writing, what it must never do.</p>
+<p>A clinic is a poor place for experiments. The person messaging at midnight may be in pain, frightened, or asking on behalf of a child. An assistant that is merely helpful most of the time is not good enough. It has to be predictable.</p>
+<h2>It does not diagnose or advise</h2>
+<p>The most common request a clinic assistant receives, after prices and opening hours, is some version of "is this normal?" The honest answer is that a receptionist does not know, and neither does a language model. Layan says so, and offers to take a message for the doctor or an appointment request. It does not name medicines or painkillers, even common ones. That is the clinician's job.</p>
+<h2>It does not confirm appointments</h2>
+<p>Layan takes an appointment <em>request</em>: what the patient wants and when suits them. Confirmation stays with the human receptionist, who can see the real schedule. This sounds like a limitation. In practice it is the feature clinics trust most, because a double booking made by a machine at 2 a.m. is worse than no booking at all.</p>
+<h2>It does not guess</h2>
+<p>Prices, services and working hours come from information the clinic gives us. If a question falls outside that, the assistant says it does not have the answer and gives the reception number. A confident wrong price costs the clinic an argument at the front desk the next morning.</p>
+<h2>It drops everything for an emergency</h2>
+<p>If a message suggests a threat to life, the conversation stops being about appointments. The assistant directs the person to emergency services and the clinic's number immediately. There is no attempt to triage and no follow-up question first.</p>
+<h2>It says what it is</h2>
+<p>From the first message and the first second of a call, Layan introduces itself as an AI assistant. People adjust how they speak when they know, and they forgive limits they were told about in advance. Pretending to be human gains nothing and risks the clinic's reputation.</p>
+<h2>Why write the refusals first</h2>
+<p>Three reasons. First, refusals are testable: you can write a conversation that tempts the assistant to cross each line and check, after every change, that it still holds. Second, they are explainable. A clinic owner can read the list in two minutes and decide whether they are comfortable. Third, they keep scope honest. Every new capability has to be checked against the list before it ships.</p>
+<p>If you are evaluating any AI assistant for a sensitive setting, ask the vendor for their refusal list. If they do not have one, you have learned what you needed to know.</p>
+      </article></div>
+    </section>
+    <section class="surface">
+      <div class="wrap">
+        <div class="sec-head"><p class="eyebrow">Keep reading</p><h2>More insights</h2></div>
+        <ul class="article-list">
+          <li><a href="../../insights/start-with-the-process-not-the-model/">
+            <span class="meta"><span>Digital transformation</span><span aria-hidden="true">·</span><time datetime="2026-11-06">6 November 2026</time><span aria-hidden="true">·</span><span>4 min read</span></span>
+            <h3>Start with the process, not the model</h3>
+            <p>A practical order of work for automation projects, and the questions to settle before anyone opens an AI tool.</p>
+          </a></li>
+          <li><a href="../../insights/testing-ai-agents/">
+            <span class="meta"><span>Quality engineering</span><span aria-hidden="true">·</span><time datetime="2026-11-02">2 November 2026</time><span aria-hidden="true">·</span><span>5 min read</span></span>
+            <h3>Testing AI agents: what changes when the software talks back</h3>
+            <p>Classic test automation assumes the same input gives the same output. Agents break that assumption. Here is how we test them anyway.</p>
+          </a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="night cta">
+      <div class="wrap">
+        <h2>Tell us what you are trying to fix.</h2>
+        <p class="lede">A short conversation is free and comes with no obligation. You will speak with the person who would do the work.</p>
+        <div class="btn-row">
+          <a class="btn btn-honey" href="../../contact/">Start a conversation</a>
+          <a class="btn btn-ghost" href="https://wa.me/962792977389" rel="noopener">Message us on WhatsApp</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a class="brand" href="../../">All <b>In</b></a>
+          <p style="margin-top:14px;max-width:34ch">Digital transformation and technology consulting. We advise, and we build what we recommend. Amman, Jordan.</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul><li><a href="../../services/digital-transformation/">Digital Transformation Strategy</a></li><li><a href="../../services/ai-automation/">AI &amp; Intelligent Automation</a></li><li><a href="../../services/technology-consulting/">Technology Consulting &amp; Architecture</a></li><li><a href="../../services/systems-integration/">Systems Integration &amp; APIs</a></li><li><a href="../../services/quality-engineering/">Quality Engineering &amp; Testing</a></li><li><a href="../../services/business-analysis/">Business Analysis &amp; Process Design</a></li><li><a href="../../services/web-digital-products/">Web &amp; Digital Products</a></li></ul>
+        </div>
+        <div>
+          <h4>Products</h4>
+          <ul><li><a href="../../products/layan-chat/">Layan Chat</a></li><li><a href="../../products/layan-voice/">Layan Voice Agent</a></li><li><a href="../../products/omnichannel-bots/">Chat &amp; Voice Bots, Omnichannel</a></li><li><a href="../../products/custom-ai-agents/">Custom AI Agents</a></li></ul>
+        </div>
+        <div>
+          <h4>Firm</h4>
+          <ul>
+            <li><a href="../../industries/healthcare/">Healthcare</a></li>
+            <li><a href="../../insights/">Insights</a></li>
+            <li><a href="../../about/">About</a></li>
+            <li><a href="../../contact/">Contact</a></li>
+            <li><a href="https://wa.me/962792977389" rel="noopener">WhatsApp</a></li>
+            <li><a href="../../layan/" lang="ar" dir="rtl">ليان بالعربي</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-base">
+        <span>© 2026 All In. Amman, Jordan.</span>
+        <span>No invented testimonials or figures appear on this site.</span>
+      </div>
+    </div>
+  </footer>
+  <script src="../../assets/js/site.js" defer></script>
+</body>
+</html>
