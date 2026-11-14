@@ -40,6 +40,8 @@ function layout({ url, section, title, desc, body, type = 'website' }) {
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(desc)}">
   <meta property="og:url" content="${SITE}${url}">
+  <meta property="og:image" content="${SITE}/assets/og.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..650&family=Hanken+Grotesk:wght@400..700&display=swap" rel="stylesheet">
@@ -69,15 +71,15 @@ ${body}
           <p style="margin-top:14px;max-width:34ch">Digital transformation and technology consulting. We advise, and we build what we recommend. Amman, Jordan.</p>
         </div>
         <div>
-          <h4>Services</h4>
+          <p class="foot-h">Services</p>
           <ul>${services.map((s) => `<li><a href="/services/${s.slug}/">${esc(s.name)}</a></li>`).join('')}</ul>
         </div>
         <div>
-          <h4>Products</h4>
+          <p class="foot-h">Products</p>
           <ul>${products.map((p) => `<li><a href="/products/${p.slug}/">${esc(p.name)}</a></li>`).join('')}</ul>
         </div>
         <div>
-          <h4>Firm</h4>
+          <p class="foot-h">Firm</p>
           <ul>
             <li><a href="/industries/healthcare/">Healthcare</a></li>
             <li><a href="/insights/">Insights</a></li>
@@ -283,6 +285,7 @@ add({
     lede: 'Seven service lines that cover the path from deciding what to change, to building it, to proving it works. Engage us for one, or for the whole path.',
   })}
     <section>
+      <h2 class="sr-only">All services</h2>
       <div class="wrap">${serviceIndex(services)}</div>
     </section>
     <section class="surface">
@@ -368,6 +371,7 @@ add({
     lede: 'We would rather know one industry properly than list twelve. Healthcare is where our products run today. Our services apply wherever the same problems appear.',
   })}
     <section>
+      <h2 class="sr-only">Sectors</h2>
       <div class="wrap">
         <div class="cards">
           <a class="card" href="/industries/healthcare/">
@@ -453,6 +457,7 @@ add({
     lede: 'Three products we run ourselves, and custom agents built to order. Listen to Layan Voice now, or ask for a live demo set up with your own details.',
   })}
     <section>
+      <h2 class="sr-only">All products</h2>
       <div class="wrap">${productCards(products)}</div>
     </section>
     <section class="night">
@@ -714,13 +719,13 @@ add({
     h1: 'Notes from the work.',
     lede: 'Short, practical pieces on what we learn while building and testing real systems. No trend reports.',
   })}
-    <section><div class="wrap">${articleList(articles)}</div></section>
+    <section><h2 class="sr-only">All articles</h2><div class="wrap">${articleList(articles)}</div></section>
 ${cta()}`,
 });
 
 articles.forEach((a) => add({
   url: `/insights/${a.slug}/`, section: 'insights', type: 'article',
-  title: `${a.title} | All In`,
+  title: `${a.short || a.title} | All In`,
   desc: a.summary,
   body: `
     <section class="page-hero">
@@ -809,6 +814,7 @@ add({
     lede: 'A few lines are enough. We usually reply the same day during working hours, Amman time.',
   })}
     <section>
+      <h2 class="sr-only">Ways to reach us</h2>
       <div class="wrap split">
         <div style="display:grid;gap:24px;align-content:start">
           <div class="panel">

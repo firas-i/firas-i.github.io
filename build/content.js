@@ -215,6 +215,7 @@ const articles = [
   {
     slug: 'testing-ai-agents',
     title: 'Testing AI agents: what changes when the software talks back',
+    short: 'Testing AI agents: when the software talks back',
     date: '2026-11-02', read: '5 min read', topic: 'Quality engineering',
     summary: 'Classic test automation assumes the same input gives the same output. Agents break that assumption. Here is how we test them anyway.',
     body: `
