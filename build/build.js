@@ -7,6 +7,7 @@ const { WA, services, products, articles } = require('./content');
 const ROOT = path.join(__dirname, '..');
 const SITE = 'https://firas-i.github.io';
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const waText = (t) => `${WA}?text=${encodeURIComponent(t)}`;
 const svc = (slug) => services.find((s) => s.slug === slug);
 const fmtDate = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
@@ -49,6 +50,7 @@ function layout({ url, section, title, desc, body, type = 'website' }) {
   <header class="site-head">
     <div class="wrap">
       <a class="brand" href="/" aria-label="All In, home">All <b>In</b></a>
+      <a class="btn btn-primary head-cta" href="${WA}" rel="noopener">WhatsApp</a>
       <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
       <nav class="nav" id="nav" aria-label="Main">
         ${nav}
@@ -81,14 +83,14 @@ ${body}
             <li><a href="/insights/">Insights</a></li>
             <li><a href="/about/">About</a></li>
             <li><a href="/contact/">Contact</a></li>
-            <li><a href="${WA}" rel="noopener">WhatsApp</a></li>
+            <li><a href="${WA}" rel="noopener">WhatsApp +962 7 9297 7389</a></li>
             <li><a href="/layan/" lang="ar" dir="rtl">ليان بالعربي</a></li>
           </ul>
         </div>
       </div>
       <div class="foot-base">
         <span>© 2026 All In. Amman, Jordan.</span>
-        <span>No invented testimonials or figures appear on this site.</span>
+        <a href="${WA}" rel="noopener">+962 7 9297 7389 · WhatsApp</a>
       </div>
     </div>
   </footer>
@@ -124,8 +126,8 @@ const cta = (h2 = 'Tell us what you are trying to fix.', p = 'A short conversati
         <h2>${h2}</h2>
         <p class="lede">${p}</p>
         <div class="btn-row">
-          <a class="btn btn-honey" href="/contact/">Start a conversation</a>
-          <a class="btn btn-ghost" href="${WA}" rel="noopener">Message us on WhatsApp</a>
+          <a class="btn btn-honey" href="${WA}" rel="noopener">Message us on WhatsApp</a>
+          <a class="btn btn-ghost" href="/contact/">Other ways to reach us</a>
         </div>
       </div>
     </section>`;
@@ -163,8 +165,8 @@ const rows = (items) => `<dl class="rows">${items.map(([t, d]) => `<div><dt>${t}
 const audioDemo = `
           <div class="demo">
             <span class="tag">Real call · unedited · Arabic</span>
-            <h3>A dental appointment request, start to finish</h3>
-            <audio controls preload="none" src="/assets/audio/layan-demo.mp3">Your browser cannot play this recording. <a href="/assets/audio/layan-demo.mp3">Download the MP3</a>.</audio>
+            <h3>A dental appointment request, start to finish (3 min 30 s)</h3>
+            <audio controls preload="metadata" src="/assets/audio/layan-demo.mp3">Your browser cannot play this recording. <a href="/assets/audio/layan-demo.mp3">Download the MP3</a>.</audio>
             <p>You will hear an Arabic greeting, a price question, an appointment request, the phone number read back digit by digit, and a confirmation that the request was logged.</p>
           </div>`;
 
@@ -345,8 +347,8 @@ services.forEach((s, i) => add({
         </div>
         <div class="panel">
           <h3>${s.product ? 'See it in our own products' : 'Related services'}</h3>
-          ${s.product ? `<p class="muted">Everything on this page is how we built Layan and our other agents.</p>
-          <ul class="ticks">${products.map((p) => `<li><a href="/products/${p.slug}/">${esc(p.name)}</a></li>`).join('')}</ul>
+          ${s.product ? `<p class="muted">Everything on this page is how we built Layan.</p>
+          <ul style="display:grid;gap:12px;justify-items:start">${products.map((p) => `<li><a class="arrow-link" href="/products/${p.slug}/">${esc(p.name)}</a></li>`).join('')}</ul>
           <h3 style="margin-top:8px">Related services</h3>` : ''}
           <ul class="ticks">${s.related.map((r) => `<li><a href="/services/${r}/">${esc(svc(r).name)}</a></li>`).join('')}</ul>
         </div>
@@ -444,11 +446,11 @@ ${cta('Run a clinic?', 'Message us and we will arrange a short call to see wheth
 add({
   url: '/products/', section: 'products',
   title: 'Products | All In',
-  desc: 'AI products from All In: Layan Chat, Layan Voice Agent, omnichannel chat and voice bots, and custom AI agents.',
+  desc: 'AI products from All In: Layan Chat, Layan Voice, omnichannel chat and voice bots, and custom AI agents.',
   body: `${pageHero({
     eyebrow: 'Products',
-    h1: 'AI agents you can hear and try before you buy.',
-    lede: 'Four products, built and operated by us. Two are ready-made for clinics. Two are built around your business and your channels.',
+    h1: 'AI agents you can hear before you buy.',
+    lede: 'Three products we run ourselves, and custom agents built to order. Listen to Layan Voice now, or ask for a live demo set up with your own details.',
   })}
     <section>
       <div class="wrap">${productCards(products)}</div>
@@ -459,7 +461,7 @@ add({
           <p class="eyebrow">Proof, not promises</p>
           <h2>Listen to Layan take a real call.</h2>
           <p class="lede">A complete booking call, recorded as it happened and not edited. The call is in Arabic.</p>
-          <p><a class="arrow-link" href="/products/layan-voice/">Layan Voice Agent</a></p>
+          <p><a class="arrow-link" href="/products/layan-voice/">Layan Voice</a></p>
         </div>
         ${audioDemo}
       </div>
@@ -492,7 +494,7 @@ add({
   title: 'Layan Chat | All In',
   desc: 'Layan Chat is an AI receptionist for clinics on WhatsApp. It answers in Jordanian Arabic and takes appointment requests after hours.',
   body: `${productHero(P('layan-chat'), 'Layan answers your clinic’s WhatsApp within seconds, at any hour, in Jordanian Arabic. It handles the common questions and takes appointment requests. Your receptionist confirms them in the morning.',
-    `<div class="btn-row"><a class="btn btn-primary" href="${WA}" rel="noopener">Try Layan for your clinic</a><a class="btn btn-ghost" href="/layan/" lang="ar" dir="rtl">الصفحة بالعربي</a></div>`)}
+    `<div class="btn-row"><a class="btn btn-primary" href="${waText('Hello, I would like to try Layan Chat for my clinic.')}" rel="noopener">Try Layan for your clinic</a><a class="btn btn-ghost" href="/layan/" lang="ar" dir="rtl">الصفحة بالعربي</a></div>`)}
     <section>
       <div class="wrap">
         <div class="sec-head">
@@ -527,9 +529,9 @@ add({
         </div>
         <div class="panel">
           <h3>Pricing</h3>
-          <p class="price">By clinic<small>Depends on message volume and what you want answered. Ask us for a quote.</small></p>
+          <p class="price">Quoted per clinic<small>A setup fee and a monthly fee, set after a 20-minute call and based on your message volume.</small></p>
           ${ticks(['Instant replies on the clinic’s WhatsApp', 'Common questions and appointment requests', 'One request list shared with Layan Voice'])}
-          <p><a class="arrow-link" href="${WA}" rel="noopener">Ask for a WhatsApp quote</a></p>
+          <p><a class="arrow-link" href="${waText('Hello, I would like a quote for Layan Chat for my clinic.')}" rel="noopener">Ask for a WhatsApp quote</a></p>
         </div>
       </div>
     </section>
@@ -548,10 +550,10 @@ ${cta('Tonight, another patient will ask.', 'Message us on WhatsApp and we will 
 
 add({
   url: '/products/layan-voice/', section: 'products',
-  title: 'Layan Voice Agent | All In',
-  desc: 'Layan Voice Agent answers your clinic’s phone in Jordanian Arabic around the clock. Listen to a real, unedited booking call.',
+  title: 'Layan Voice | All In',
+  desc: 'Layan Voice answers your clinic’s phone in Jordanian Arabic around the clock. Listen to a real, unedited booking call.',
   body: `${productHero(P('layan-voice'), 'Layan answers your clinic’s phone line around the clock in a Jordanian voice. It answers questions, takes appointment requests and reads the phone number back to be sure. Available now.',
-    `<div class="btn-row"><a class="btn btn-primary" href="#listen">Listen to a real call</a><a class="btn btn-ghost" href="${WA}" rel="noopener">Book a live demo</a></div>`)}
+    `<div class="btn-row"><a class="btn btn-primary" href="#listen">Listen to a real call</a><a class="btn btn-ghost" href="${waText('Hello, I would like a live Layan Voice demo for my clinic.')}" rel="noopener">Book a live demo</a></div>`)}
     <section class="night" id="listen">
       <div class="wrap split">
         <div class="sec-head" style="margin:0">
@@ -589,7 +591,7 @@ add({
         <div class="panel">
           <h3>Included</h3>
           ${ticks(['Answers around the clock in Jordanian Arabic', 'Appointment requests and answers to patient questions', 'Connection to your clinic’s phone number', 'Every call delivered to reception as an open request', 'Free adjustments during the first month'])}
-          <p><a class="arrow-link" href="${WA}" rel="noopener">Book Layan</a></p>
+          <p><a class="arrow-link" href="${waText('Hello, I would like to book Layan Voice for my clinic.')}" rel="noopener">Book Layan</a></p>
         </div>
       </div>
     </section>

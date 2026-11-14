@@ -209,3 +209,9 @@ a.card:hover { border-color: var(--ink); transform: translateY(-2px); }
 .site-foot a { text-decoration: none; }
 .site-foot a:hover { color: var(--on-night); text-decoration: underline; }
 .foot-base { margin-top: 44px; padding-top: 22px; border-top: 1px solid var(--night-line); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; font-size: 0.9rem; }
+
+/* header WhatsApp button (phones only) + full-width stacked buttons */
+.head-cta { display: none; }
+@media (max-width: 860px) { .head-cta { display: inline-flex; margin-left: auto; padding: 9px 14px; font-size: 0.95rem; } }
+@media (max-width: 480px) { .btn-row { display: grid; } .btn-row .btn { justify-content: center; } }
+.two-col > .panel { align-self: start; }

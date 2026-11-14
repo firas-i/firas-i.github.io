@@ -162,9 +162,9 @@ const services = [
 ];
 
 const products = [
-  { slug: 'layan-chat', name: 'Layan Chat', tag: 'Healthcare · WhatsApp', short: 'An AI receptionist that answers your clinic’s WhatsApp in Jordanian Arabic and takes appointment requests after hours.' },
-  { slug: 'layan-voice', name: 'Layan Voice Agent', tag: 'Healthcare · Phone', short: 'The same receptionist on your clinic’s phone line. Listen to a real, unedited booking call.' },
-  { slug: 'omnichannel-bots', name: 'Chat & Voice Bots, Omnichannel', tag: 'Any sector · 5 channels', short: 'One assistant across WhatsApp, Instagram, Facebook Messenger, your website and your mobile app.' },
+  { slug: 'layan-chat', name: 'Layan Chat', tag: 'Healthcare · WhatsApp', short: 'An AI receptionist that answers your clinic’s WhatsApp in Jordanian Arabic, day and night, and takes appointment requests.' },
+  { slug: 'layan-voice', name: 'Layan Voice', tag: 'Healthcare · Phone', short: 'The same receptionist on your clinic’s phone line. Listen to a real, unedited booking call.' },
+  { slug: 'omnichannel-bots', name: 'Omnichannel Chat & Voice Bots', tag: 'Any sector · 5 chat channels + phone', short: 'One assistant across WhatsApp, Instagram, Facebook Messenger, your website and your mobile app.' },
   { slug: 'custom-ai-agents', name: 'Custom AI Agents', tag: 'Built to order', short: 'Agents designed around one of your workflows, with written limits and a human hand-over.' },
 ];
 
